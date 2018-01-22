@@ -56,7 +56,7 @@ values."
                               (sequence "|" "CANCELED(c)")
                               )
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
-          org-modules '(org-habit org-info org-w3m org-mac-link org-protocol)
+          org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
           org-directory "~/my/org"
           org-default-notes-file "~/my/org/TODO.org"
           org-capture-templates '(
@@ -389,7 +389,13 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages nil))
+ '(org-agenda-files
+   (quote
+    ("~/my/org/TODO.org")))
+ '(package-selected-packages
+   (quote
+    ()
+    )))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

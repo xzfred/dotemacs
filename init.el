@@ -42,6 +42,7 @@ values."
      vimscript
      sql
      python
+     ibuffer
      (javascript :variables
                  tern-command '("node" "/usr/local/bin/tern")
                  javascript-disable-tern-port-files nil)
@@ -58,21 +59,22 @@ values."
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
           org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
           org-directory "~/my/org"
-          org-default-notes-file "~/my/org/TODO.org"
+          org-default-notes-file "~/my/org/note.org"
           org-capture-templates '(
-                                  ("t" "Tasks" entry (file+headline "~/my/org/TODO.org" "Inbox") "** TODO %^{Task}\nSCHEDULED: %t\n")
-                                  ("J" "Journal entry with date" plain
-                                   (file+datetree+prompt "~/my/org/journal.org")
-                                   "%K - %a\n%i\n%?\n"
-                                   :unnarrowed t)
-                                  ("s" "Journal entry with date, scheduled" entry
-                                   (file+datetree+prompt "~/my/org/journal.org")
-                                   "* \n%K - %a\n%t\t%i\n%?\n"
-                                   :unnarrowed t)
-                                  ("p" "Protocol" entry (file+headline "~/my/org/TODO.org" "Inbox")
-                                   "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                                  ("L" "Protocol Link" entry (file+headline "~/my/org/TODO.org" "Inbox")
-                                   "** TODO %? [[%:link][%:description]] \nCaptured On: %U"))
+                                  ("n" "New(n)" entry (file+headline "~/my/org/inbox.org" "Inbox") "* %? %T \n  %i\n %a" :empty-lines 1) ;
+                                  ("t" "Tasks" entry (file+headline "~/my/org/task.org" "Tasks") "** TODO %^{Task}\nSCHEDULED: %t\n")
+                                  ;; ("t" "Task(t)" entry (file+headline "~/my/org/task.org" "Tasks") "** TODO %? %T\n  %i\n %a" :empty-lines 1)
+                                  ("c" "Calendar(c)" entry (file+headline "~/my/org/task.org" "Calendar") "** TODO %? %T\n  %i\n" :empty-lines 1)
+                                  ("i" "Idea(i)" entry (file+headline "~/my/org/note.org" "Ideas") "* %? %T\n  %i\n" :empty-lines 1)
+                                  ("r" "Note(r)" entry (file+headline "~/my/org/note.org" "Notes") "* %? %T\n  %i\n" :empty-lines 1)
+                                  ("p" "Project(p)" entry (file+headline "~/my/org/project.org" "project") "*  %?\n  %i\n" :empty-lines 1)
+                                  ("j" "Journal" entry (file+datetree "~/my/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+                                  ("J" "Journal entry with date" plain (file+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
+                                  ("s" "Journal entry with date, scheduled" entry (file+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
+                                  ("l" "Protocol" entry (file+headline "~/my/org/inbox.org" "Inbox") "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+                                  ("L" "Protocol Link" entry (file+headline "~/my/org/inbox.org" "Inbox") "** TODO %? [[%:link][%:description]] \nCaptured On: %U")
+                                  )
+
           )
      dash markdown emoji gnus imenu-list ibuffer sql html
      (better-defaults :variables better-defaults-move-to-end-of-code-first t)
@@ -179,8 +181,8 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7)
+   dotspacemacs-startup-lists '((recents . 9)
+                                (projects . 5)
                                 (bookmarks . 5)
                                 (agenda . 5)
                                 (todos . 5))
@@ -325,7 +327,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -379,6 +381,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (with-eval-after-load 'helm
+    (setq helm-display-function 'helm-default-display-buffer)) ;;
+  (setq org-agenda-files (list "~/my/org/"))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -388,14 +393,14 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(evil-want-Y-yank-to-eol nil)
- '(org-agenda-files
-   (quote
-    ("~/my/org/TODO.org")))
+ '(org-agenda-files (quote ("~/my/org/TODO.org")))
  '(package-selected-packages
    (quote
-    ()
-    )))
+    (evil-multiedit ncl-mode molokai-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc info+ indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump dracula-theme diminish diff-hl dash-at-point dactyl-mode cython-mode company-web company-tern company-statistics company-php company-emoji company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+ '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

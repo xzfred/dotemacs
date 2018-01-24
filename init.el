@@ -43,6 +43,7 @@ values."
      sql
      python
      ibuffer
+
      (javascript :variables
                  tern-command '("node" "/usr/local/bin/tern")
                  javascript-disable-tern-port-files nil)
@@ -384,6 +385,38 @@ you should place your code here."
   (with-eval-after-load 'helm
     (setq helm-display-function 'helm-default-display-buffer)) ;;
   (setq org-agenda-files (list "~/my/org/"))
+  (setq gnus-secondary-select-methods
+        '(
+          (nnimap "mxtrip"
+                  (nnimap-address
+                   "imap.exmail.qq.com")
+                  (nnimap-server-port 993)
+                  (nnimap-stream ssl))
+          ))
+
+  ;; Send email via Gmail:
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-stream-type 'ssl
+        ;; smtpmail-starttls-credentials '(("smtp.qq.com" 465 "xxx" "yyy"))
+        ;; smtpmail-auth-credentials '(("smtp.qq.com" 465 "xxx" "yyy"))
+        smtpmail-smtp-server "hwsmtp.exmail.qq.com"
+        smtpmail-smtp-service 465
+        smtpmail-default-smtp-server "hwsmtp.exmail.qq.com")
+
+  ;; Archive outgoing email in Sent folder on imap.gmail.com:
+  (setq gnus-message-archive-method '(nnimap "imap.exmail.qq.com")
+        gnus-message-archive-group "[mxtrip]/Sent Mail")
+
+  ;; set return email address based on incoming email address
+  (setq gnus-posting-styles
+        '(((header "to" "address@mxtrip.cn")
+           (address "address@mxtrip.cn"))
+          ((header "to" "address@gmail.com")
+           (address "address@gmail.com"))))
+
+  ;; store email in ~/gmail directory
+  (setq nnml-directory "~/Mail/mxtrip")
+  (setq message-directory "~/Mail/mxtrip")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

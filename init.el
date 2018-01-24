@@ -55,26 +55,27 @@ values."
                               (sequence "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "ABORT(a@/!)")
                               (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
                               (sequence "|" "CANCELED(c)")
+                              (type "Home(h!)" "Work(w!)" "Code(c!)" "Read(r!)" "Plan(p!)" "Collect(f!)")
                               )
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
           org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
           org-directory "~/my/org"
           org-default-notes-file "~/my/org/note.org"
-          org-capture-templates '(
-                                  ("n" "New(n)" entry (file+headline "~/my/org/inbox.org" "Inbox") "* %? %T \n  %i\n %a" :empty-lines 1) ;
-                                  ("t" "Tasks" entry (file+headline "~/my/org/task.org" "Tasks") "** TODO %^{Task}\nSCHEDULED: %t\n")
-                                  ;; ("t" "Task(t)" entry (file+headline "~/my/org/task.org" "Tasks") "** TODO %? %T\n  %i\n %a" :empty-lines 1)
-                                  ("c" "Calendar(c)" entry (file+headline "~/my/org/task.org" "Calendar") "** TODO %? %T\n  %i\n" :empty-lines 1)
-                                  ("i" "Idea(i)" entry (file+headline "~/my/org/note.org" "Ideas") "* %? %T\n  %i\n" :empty-lines 1)
-                                  ("r" "Note(r)" entry (file+headline "~/my/org/note.org" "Notes") "* %? %T\n  %i\n" :empty-lines 1)
-                                  ("p" "Project(p)" entry (file+headline "~/my/org/project.org" "project") "*  %?\n  %i\n" :empty-lines 1)
-                                  ("j" "Journal" entry (file+datetree "~/my/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
-                                  ("J" "Journal entry with date" plain (file+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
-                                  ("s" "Journal entry with date, scheduled" entry (file+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
-                                  ("l" "Protocol" entry (file+headline "~/my/org/inbox.org" "Inbox") "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                                  ("L" "Protocol Link" entry (file+headline "~/my/org/inbox.org" "Inbox") "** TODO %? [[%:link][%:description]] \nCaptured On: %U")
-                                  )
-
+          org-capture-templates
+          '(
+            ("n" "New(n)" checkitem (file+headline "~/my/org/inbox.org" "Inbox") "* %? %U \n  %i\n %a" :empty-lines 1) ;
+            ("t" "Tasks" checkitem (file+headline "~/my/org/task.org" "Tasks") "** TODO %^{Task}\nSCHEDULED: %T\n")
+            ;; ("t" "Task(t)" entry (file+headline "~/my/org/task.org" "Tasks") "** TODO %? %T\n  %i\n %a" :empty-lines 1)
+            ("c" "Calendar(c)" checkitem (file+headline "~/my/org/task.org" "Calendar") "** TODO %? %T\n  %i\n" :empty-lines 1)
+            ("i" "Idea(i)" entry (file+headline "~/my/org/note.org" "Ideas") "* %? %U\n  %i\n" :empty-lines 1)
+            ("r" "Note(r)" entry (file+headline "~/my/org/note.org" "Notes") "* %? %U\n  %i\n" :empty-lines 1)
+            ("p" "Project(p)" checkitem (file+headline "~/my/org/project.org" "project") "*  %?\n %U\n  %i\n" :empty-lines 1)
+            ("j" "Journal" checkitem (file+datetree "~/my/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+            ("J" "Journal checkitem with date" plain (file+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
+            ("s" "Journal checkitem with date, scheduled" entry (file+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
+            ("l" "Protocol" checkitem (file+headline "~/my/org/inbox.org" "Inbox") "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+            ("L" "Protocol Link" checkitem (file+headline "~/my/org/inbox.org" "Inbox") "** TODO %? [[%:link][%:description]] \nCaptured On: %U")
+            )
           )
      dash markdown emoji gnus imenu-list ibuffer sql html
      (better-defaults :variables better-defaults-move-to-end-of-code-first t)
@@ -201,7 +202,7 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Menlo"
                                 ;; "Source Code Pro"
-                               :size 13
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)

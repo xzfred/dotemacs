@@ -24,7 +24,7 @@ Each entry is either:
   (use-package dracula-theme
     :init
     :config
-    (load-theme 'dracula t)
+    ;(load-theme 'dracula t)
     ))
 
 ;; (setq <layer>-excluded-packages '(package1 package2 ...)

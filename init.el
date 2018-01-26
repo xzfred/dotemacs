@@ -55,7 +55,7 @@ values."
                               (sequence "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "ABORT(a@/!)")
                               (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
                               (sequence "|" "CANCELED(c)")
-                              (type "Home(h!)" "Work(w!)" "Code(c!)" "Read(r!)" "Plan(p!)" "Collect(f!)")
+                              (type "家里(j)" "工作(g)" "代码(m)" "阅读(y)" "思考(x)" "学习(l)" "百度(b)" "|")
                               )
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
           org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
@@ -63,18 +63,19 @@ values."
           org-default-notes-file "~/my/org/note.org"
           org-capture-templates
           '(
-            ("n" "New(n)" checkitem (file+headline "~/my/org/inbox.org" "Inbox") "* %? %U \n  %i\n %a" :empty-lines 1) ;
-            ("t" "Tasks" checkitem (file+headline "~/my/org/task.org" "Tasks") "** TODO %^{Task}\nSCHEDULED: %T\n")
-            ;; ("t" "Task(t)" entry (file+headline "~/my/org/task.org" "Tasks") "** TODO %? %T\n  %i\n %a" :empty-lines 1)
-            ("c" "Calendar(c)" checkitem (file+headline "~/my/org/task.org" "Calendar") "** TODO %? %T\n  %i\n" :empty-lines 1)
-            ("i" "Idea(i)" entry (file+headline "~/my/org/note.org" "Ideas") "* %? %U\n  %i\n" :empty-lines 1)
-            ("r" "Note(r)" entry (file+headline "~/my/org/note.org" "Notes") "* %? %U\n  %i\n" :empty-lines 1)
-            ("p" "Project(p)" checkitem (file+headline "~/my/org/project.org" "project") "*  %?\n %U\n  %i\n" :empty-lines 1)
-            ("j" "Journal" checkitem (file+datetree "~/my/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
-            ("J" "Journal checkitem with date" plain (file+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
-            ("s" "Journal checkitem with date, scheduled" entry (file+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
-            ("l" "Protocol" checkitem (file+headline "~/my/org/inbox.org" "Inbox") "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-            ("L" "Protocol Link" checkitem (file+headline "~/my/org/inbox.org" "Inbox") "** TODO %? [[%:link][%:description]] \nCaptured On: %U")
+            ("n" "New(n)" item (file+headline "~/my/org/inbox.org" "Inbox") "** %? \nCaptured On: %U \n  %i\n %a" :empty-lines 1) ;
+            ("t" "Tasks" item (file+headline "~/my/org/task.org" "Tasks") "** TODO %^{Task} \nSCHEDULED: %t\n")
+            ("c" "Calendar(c)" item (file+headline "~/my/org/task.org" "Calendar") "** TODO %? %T\n  %i\n" :empty-lines 1)
+            ("i" "Idea(i)" entry (file+headline "~/my/org/note.org" "Ideas") "** %? \nCaptured On: %U\n  %i\n" :empty-lines 1)
+            ("r" "Note(r)" entry (file+headline "~/my/org/note.org" "Notes") "** %? \nCaptured On: %U\n  %i\n" :empty-lines 1)
+            ("p" "Project(p)" item (file+headline "~/my/org/project.org" "project/Inbox") "*** TODO  %?\nCaptured On: %U\n  %i\n" :empty-lines 1)
+
+            ("j" "Journal" entry (file+olp+datetree "~/my/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+            ("J" "Journal with date" plain (file+olp+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
+            ("s" "Journal with date, scheduled" entry (file+olp+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
+
+            ("l" "Protocol" item (file+headline "~/my/org/inbox.org" "Inbox") "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+            ("L" "Protocol Link" item (file+headline "~/my/org/inbox.org" "Inbox") "** TODO %? [[%:link][%:description]] \nCaptured On: %U")
             )
           )
      dash markdown emoji gnus imenu-list ibuffer sql html
@@ -296,7 +297,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)

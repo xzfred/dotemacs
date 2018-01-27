@@ -6,9 +6,7 @@ Each entry is either:
           ")
 
 (setq xzfred-packages
-      '(
-        dracula-theme
-        )
+      ;; '(dracula-theme)
       )
 
 ;; 配置包
@@ -20,11 +18,12 @@ Each entry is either:
 ;; :disabled t 禁用
 
 ;; dracula-theme主题
-(defun xzfred/init-dracula-theme ()
-  (use-package dracula-theme
-    :init
-    :config
-    ;(load-theme 'dracula t)
-    ))
+;; (defun xzfred/init-dracula-theme ()
+;;   (
+;;     use-package dracula-theme
+;;     :init
+;;     :config
+;;     ;(load-theme 'dracula t)
+;;     ))
 
 ;; (setq <layer>-excluded-packages '(package1 package2 ...)

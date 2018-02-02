@@ -217,8 +217,8 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         spacemacs-light
                          zenburn
+                         spacemacs-light
                          spacemacs-dark
                          leuven
                          ;; dracula
@@ -399,7 +399,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 (setq configuration-layer--elpa-archives
       '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
         ("org-cn"   . "http://elpa.zilongshanren.com/org/")
-        ("SC"   . "http://joseito.republika.pl/sunrise-commander/")
+        ;; ("SC"   . "http://joseito.republika.pl/sunrise-commander/")
         ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
   )
 
@@ -412,7 +412,6 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (with-eval-after-load 'helm
     (setq helm-display-function 'helm-default-display-buffer)) ;;
-  (global-pangu-spacing-mode)
   (setq org-agenda-files (list "~/my/org/"))
   ;; (setq face-font-rescale-alist '(("Menlo" . 1.2) ("苹方-简" . 1.2)))
   (spacemacs//set-monospaced-font "Menlo" "苹方-简" 14 16)
@@ -422,6 +421,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "xyh" 'youdao-dictionary-search-at-point+)
   (spacemacs/set-leader-keys "xyy" 'youdao-dictionary-search-at-point)
   (spacemacs/set-leader-keys "xyv" 'youdao-dictionary-play-voice-at-point)
+  (global-pangu-spacing-mode -1)
 
   (setq mm-text-html-renderer 'w3m)
 

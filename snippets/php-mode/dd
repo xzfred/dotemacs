@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : dd
+#key : dd
+#contributor : 徐智
+# --
+\Kint::dump($data);die;

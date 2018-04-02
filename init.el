@@ -34,6 +34,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
 ;;     xzfred
@@ -42,6 +43,11 @@ values."
      vimscript
      sql
      python
+     (ruby :variables
+           ruby-test-runner 'rspec
+           ;; ruby-enable-enh-ruby-mode t
+           )
+     ruby-on-rails
      ibuffer
      rust
 
@@ -110,7 +116,7 @@ values."
           osx-use-dictionary-app t)
      ;; themes-megapack
      (colors :variables colors-enable-nyan-cat-progress-bar t colors-enable-rainbow-identifiers t)
-     (spacemacs-layouts :variables layouts-enable-autosave t layouts-autosave-delay 300)
+     ;; (spacemacs-layouts :variables layouts-enable-autosave t layouts-autosave-delay 300)
      ;; A中文支持
     (chinese :variables
              chinese-default-input-method 'fcitx
@@ -401,6 +407,9 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+
 (setq configuration-layer--elpa-archives
       '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
         ("org-cn"   . "http://elpa.zilongshanren.com/org/")
@@ -429,21 +438,25 @@ you should place your code here."
   (global-pangu-spacing-mode -1)
   (global-company-mode)
   (setq mm-text-html-renderer 'w3m)
-  ;; (setq ycmd-server-command '("python" '(file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/")))
-  ;; (setq ycmd-global-config '(file-truename "~/ycmd_global_config.py"))
-                              ;; "/User/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd"))
-  ;; (setq ycmd-force-semantic-completion t)
-  ;; (add-hook 'rust-mode-hook 'ycmd-mode)
 
-  (set-variable 'ycmd-global-config "")
-  (set-variable
-   'ycmd-server-command
-   '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
+  ;; (setq ycmd-server-command '("python" '(file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/")))
+  (setq ycmd-global-config (file-truename "~/ycmd_global_config.py"))
+  ;;                             ;; "/User/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd"))
+  ;; (setq ycmd-force-semantic-completion t)
+  (add-hook 'rust-mode-hook 'ycmd-mode)
+
+  ;;; 设置等待server的时间，默认是3s
+  (setq ycmd-startup-timeout 45)
+  ;;; show debug info to *Messages* buffer
+  (setq url-show-status t)
+
+  (setq ycmd-server-command '())
+  (push (file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/") ycmd-server-command)
+  (push "python" ycmd-server-command)
   ;; (set-variable 'ycmd-extra-conf-whitelist '("~/repos/*"))
-  (set-variable 'ycmd-global-modes 'all)
-  (set-variable 'ycmd-parse-conditions
-                '(save new-line mode-enabled idle-change buffer-focus))
-  (set-variable 'ycmd-rust-src-path "/User/fred/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+  ;; (set-variable 'ycmd-global-modes 'all)
+  ;; (set-variable 'ycmd-parse-conditions '(save new-line mode-enabled idle-change buffer-focus))
+  ;; (setq ycmd-rust-src-path (file-truename "~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"))
 
   (setq gnus-secondary-select-methods
         '(
@@ -497,7 +510,7 @@ you should place your code here."
  '(org-agenda-files (quote ("~/my/org/TODO.org")))
  '(package-selected-packages
    (quote
-    (company-dict flycheck-ycmd company-ycmd ycmd request-deferred deferred toml-mode racer flycheck-rust cargo rust-mode sunrise-x-buttons sunrise-x-tree sunrise-x-tabs sunrise-commander zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme ample-zen-theme ample-theme alect-themes afternoon-theme helm-w3m w3m xpm org-mime youdao-dictionary names chinese-word-at-point pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib hc-zenburn-theme anti-zenburn-theme evil-multiedit ncl-mode molokai-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc info+ indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump dracula-theme diminish diff-hl dash-at-point dactyl-mode cython-mode company-web company-tern company-statistics company-php company-emoji company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (company-ycmd ycmd projectile-rails inflections feature-mode enh-ruby-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby company-dict flycheck-ycmd request-deferred deferred toml-mode racer flycheck-rust cargo rust-mode sunrise-x-buttons sunrise-x-tree sunrise-x-tabs sunrise-commander zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme ample-zen-theme ample-theme alect-themes afternoon-theme helm-w3m w3m xpm org-mime youdao-dictionary names chinese-word-at-point pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib hc-zenburn-theme anti-zenburn-theme evil-multiedit ncl-mode molokai-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc info+ indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump dracula-theme diminish diff-hl dash-at-point dactyl-mode cython-mode company-web company-tern company-statistics company-php company-emoji company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

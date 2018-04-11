@@ -126,6 +126,7 @@ values."
              )
      ;; 代码跳转
      (gtags :variables gtags-enable-by-default t)
+
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
@@ -463,6 +464,10 @@ you should place your code here."
   ;;; show debug info to *Messages* buffer
   (setq url-show-status t)
 
+  (spacemacs/helm-gtags-define-keys-for-mode 'php-mode)
+  (set-variable 'ycmd-global-config "")
+  ;(set-variable 'ycmd-server-command '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
+  
   (setq ycmd-server-command '())
   (push (file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/") ycmd-server-command)
   (push "python" ycmd-server-command)

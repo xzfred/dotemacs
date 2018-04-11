@@ -132,7 +132,11 @@ values."
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
                       ;; auto-completion-complete-with-key-sequence "jk"
                       ;; 
-                      spacemacs-default-company-backends '((company-dabbrev-code company-gtags company-keywords company-files company-capf) company-dabbrev)
+                      spacemacs-default-company-backends '((
+                                                            company-dabbrev-code
+                                                            company-gtags
+                                                            company-keywords
+                                                            company-files company-capf) company-dabbrev)
                       )
                       ;; :disabled-for "org"
      ;; 版本控制
@@ -508,6 +512,8 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(fci-rule-column 100)
+ ;; '(company-show-numbers t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector

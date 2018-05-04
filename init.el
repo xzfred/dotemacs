@@ -115,7 +115,8 @@ values."
           osx-dictionary-dictionary-choice "English"
           osx-use-dictionary-app t)
      ;; themes-megapack
-     (colors :variables colors-enable-nyan-cat-progress-bar t colors-enable-rainbow-identifiers t)
+     ;; colors-enable-nyan-cat-progress-bar t 
+     (colors :variables colors-enable-rainbow-identifiers t)
      ;; (spacemacs-layouts :variables layouts-enable-autosave t layouts-autosave-delay 300)
      ;; A中文支持
     (chinese :variables
@@ -246,7 +247,7 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Menlo"
                                 ;; "Source Code Pro"
-                               :size 14
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -434,7 +435,7 @@ you should place your code here."
     (setq helm-display-function 'helm-default-display-buffer)) ;;
   (setq org-agenda-files (list "~/my/org/"))
   ;; (setq face-font-rescale-alist '(("Menlo" . 1.2) ("苹方-简" . 1.2)))
-  (spacemacs//set-monospaced-font "Menlo" "苹方-简" 14 16)
+  (spacemacs//set-monospaced-font "Menlo" "苹方-简" 12 13)
   ;; (global-set-key (kbd "SPC-v") 'youdao-dictionary-search-at-point+)
   (spacemacs/set-leader-keys "xh" 'youdao-dictionary-search-at-point+)
   (spacemacs/declare-prefix "xx" "youdao-dictionary")

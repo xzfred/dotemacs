@@ -53,7 +53,13 @@
                (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
                (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)    ;go back
                (set (make-local-variable 'company-backends)
-                    '((php-extras-company company-dabbrev) company-capf company-files))
+                    ;; '((php-extras-company company-dabbrev) company-capf company-files))
+                    ;;  php-extras-company
+                    '(company-robe
+                                   (company-capf :with company-yasnippet)
+                                   (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
+                                   (company-files :with company-yasnippet) 
+                                   (company-dabbrev :with company-yasnippet)))
                ))
       )
     )

@@ -57,12 +57,13 @@ values."
                           ("#突破" . ?a)
                           ("#挖掘" . ?b)
                           ("#接触" . ?c)
+                          ("#测试" . ?t)
                           ("@work" . ?w)
                           ("@home" . ?h)
                           ("laptop" . ?l)
                           ("kindle" . ?k)
                           ("book" . ?z)
-                          ("phone" . ?t)
+                          ("phone" . ?P)
                           ("read" . ?r)
                           ("study" . ?s)
                           ("plan" . ?p)
@@ -75,7 +76,7 @@ values."
                               ;; (type "进程(p)" "线程(t)" "纤程(q)" "协程(x)" "|")
                               )
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
-          org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
+          org-modules '(org-habit org-float org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
           org-directory "~/my/org"
           org-default-notes-file "~/my/org/note.org"
           org-capture-templates
@@ -436,15 +437,14 @@ you should place your code here."
   ;; (setq ycmd-force-semantic-completion t)
   ;; (add-hook 'rust-mode-hook 'ycmd-mode)
 
-  (set-variable 'ycmd-global-config "")
-  (set-variable
-   'ycmd-server-command
-   '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
-  ;; (set-variable 'ycmd-extra-conf-whitelist '("~/repos/*"))
-  (set-variable 'ycmd-global-modes 'all)
-  (set-variable 'ycmd-parse-conditions
-                '(save new-line mode-enabled idle-change buffer-focus))
-  (set-variable 'ycmd-rust-src-path "/User/fred/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+  ;; (set-variable 'ycmd-global-config "")
+  ;; (set-variable
+  ;;  'ycmd-server-command
+  ;;  '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
+  ;; (set-variable 'ycmd-global-modes 'all)
+  ;; (set-variable 'ycmd-parse-conditions
+  ;;               '(save new-line mode-enabled idle-change buffer-focus))
+  ;; (set-variable 'ycmd-rust-src-path "/User/fred/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
   (setq gnus-secondary-select-methods
         '(

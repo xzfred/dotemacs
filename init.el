@@ -34,6 +34,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
 ;;     xzfred
@@ -42,7 +43,11 @@ values."
      vimscript
      sql
      python
-     ruby
+     (ruby :variables
+           ruby-test-runner 'rspec
+           ;; ruby-enable-enh-ruby-mode t
+           )
+     ruby-on-rails
      ibuffer
      rust
 
@@ -78,6 +83,8 @@ values."
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
           org-modules '(org-habit org-float org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
           org-directory "~/my/org"
+          org-refile-targets (quote (("~/my/org/trash.org" :maxlevel . 1)
+                                     ("~/my/org/future.org" :level . 1)))
           org-default-notes-file "~/my/org/note.org"
           org-capture-templates
           '(
@@ -89,12 +96,47 @@ values."
             ("p" "Project(p)" entry (file+headline "~/my/org/project.org" "project/Inbox") "*** TODO  %?\nCaptured On: %U\n  %i\n" :empty-lines 1)
 
             ("j" "Journal" entry (file+olp+datetree "~/my/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
-            ("J" "Journal with date" plain (file+olp+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
-            ("s" "Journal with date, scheduled" entry (file+olp+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
+            ;; ("J" "Journal with date" plain (file+olp+datetree+prompt "~/my/org/journal.org") "%K - %a\n%i\n%?\n" :unnarrowed t)
+            ;; ("s" "Journal with date, scheduled" entry (file+olp+datetree+prompt "~/my/org/journal.org") "* \n%K - %a\n%t\t%i\n%?\n" :unnarrowed t)
 
             ("l" "Protocol" entry (file+headline "~/my/org/inbox.org" "Inbox") "** %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
             ("L" "Protocol Link" entry (file+headline "~/my/org/inbox.org" "Inbox") "** TODO %? [[%:link][%:description]] \nCaptured On: %U")
+
+            ("b" "Blog" plain (file (concat "~/my/org/wiki/" (format-time-string "%Y-%m-%d.org")))
+             (concat "#+startup: showall\n"
+                      "#+options: toc:nil\n"
+                      "#+begin_export html\n"
+                      "---\n"
+                      "layout     : post\n"
+                      "title      : %^{标题}\n"
+                      "categories : %^{类别}\n"
+                      "tags       : %^{标签}\n"
+                      "---\n"
+                      "#+end_export\n"
+                      "#+TOC: headlines 2\n"))
             )
+          org-publish-project-alist
+                '(("blog-org"
+                   :base-directory "~/my/org/wiki/"
+                   :base-extension "org"
+                   :publishing-directory "~/my/home/"
+                   :recursive t
+                   :htmlized-source t
+                   :section-numbers nil
+                   :publishing-function org-html-publish-to-html
+                   :headline-levels 4
+                   :html-extension "html"
+                   :body-only t     ; Only export section between <body> </body>
+                   :table-of-contents nil
+                   )
+                  ("blog-static"
+                   :base-directory "~/my/org/wiki/"
+                   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
+                   :publishing-directory "~/my/home/"
+                   :recursive t
+                   :publishing-function org-publish-attachment
+                   )
+                  ("blog" :components ("blog-org" "blog-static")))
           )
      dash markdown emoji gnus imenu-list ibuffer sql html
      (better-defaults :variables better-defaults-move-to-end-of-code-first t)
@@ -111,8 +153,9 @@ values."
           osx-dictionary-dictionary-choice "English"
           osx-use-dictionary-app t)
      ;; themes-megapack
-     (colors :variables colors-enable-nyan-cat-progress-bar t colors-enable-rainbow-identifiers t)
-     (spacemacs-layouts :variables layouts-enable-autosave t layouts-autosave-delay 300)
+     ;; colors-enable-nyan-cat-progress-bar t 
+     (colors :variables colors-enable-rainbow-identifiers t)
+     ;; (spacemacs-layouts :variables layouts-enable-autosave t layouts-autosave-delay 300)
      ;; A中文支持
     (chinese :variables
              chinese-default-input-method 'fcitx
@@ -122,13 +165,18 @@ values."
              )
      ;; 代码跳转
      (gtags :variables gtags-enable-by-default t)
+
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
                       ;; auto-completion-complete-with-key-sequence "jk"
                       ;; 
-                      spacemacs-default-company-backends '((company-dabbrev-code company-gtags company-keywords company-files company-capf) company-dabbrev)
+                      spacemacs-default-company-backends '((
+                                                            company-dabbrev-code
+                                                            company-gtags
+                                                            company-keywords
+                                                            company-files company-capf) company-dabbrev)
                       )
                       ;; :disabled-for "org"
      ;; 版本控制
@@ -148,6 +196,7 @@ values."
                                       w3m
                                       org-mime
                                       dracula-theme
+                                      symbol-overlay
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -212,7 +261,7 @@ values."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists '((recents . 9)
-                                (projects . 5)
+                                (projects . 9)
                                 (bookmarks . 5)
                                 (agenda . 5)
                                 (todos . 5))
@@ -236,7 +285,7 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Menlo"
                                 ;; "Source Code Pro"
-                               :size 14
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -275,7 +324,7 @@ values."
    ;; (default nil)
    dotspacemacs-ex-substitute-global nil
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name "Default"
+   dotspacemacs-default-layout-name "home"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
    dotspacemacs-display-default-layout nil
@@ -403,6 +452,9 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+
 (setq configuration-layer--elpa-archives
       '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
         ("org-cn"   . "http://elpa.zilongshanren.com/org/")
@@ -417,11 +469,12 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (setq calendar-week-start 1)            ;设置星期一为每周的第一天
   (with-eval-after-load 'helm
     (setq helm-display-function 'helm-default-display-buffer)) ;;
   (setq org-agenda-files (list "~/my/org/"))
   ;; (setq face-font-rescale-alist '(("Menlo" . 1.2) ("苹方-简" . 1.2)))
-  (spacemacs//set-monospaced-font "Menlo" "苹方-简" 14 16)
+  (spacemacs//set-monospaced-font "Menlo" "苹方-简" 12 14)
   ;; (global-set-key (kbd "SPC-v") 'youdao-dictionary-search-at-point+)
   (spacemacs/set-leader-keys "xh" 'youdao-dictionary-search-at-point+)
   (spacemacs/declare-prefix "xx" "youdao-dictionary")
@@ -429,13 +482,27 @@ you should place your code here."
   (spacemacs/set-leader-keys "xyy" 'youdao-dictionary-search-at-point)
   (spacemacs/set-leader-keys "xyv" 'youdao-dictionary-play-voice-at-point)
   (global-pangu-spacing-mode -1)
+
+  (spacemacs/set-leader-keys "si" 'symbol-overlay-put)
+  (spacemacs/declare-prefix "sm" "symbol-overlay")
+  (spacemacs/set-leader-keys "sma" 'symbol-overlay-remove-all)
+  (spacemacs/set-leader-keys "smn" 'symbol-overlay-switch-forward)
+  (spacemacs/set-leader-keys "smp" 'symbol-overlay-switch-backward)
+  (spacemacs/set-leader-keys "smt" 'symbol-overlay-mode)
+
   (global-company-mode)
   (setq mm-text-html-renderer 'w3m)
+
   ;; (setq ycmd-server-command '("python" '(file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/")))
-  ;; (setq ycmd-global-config '(file-truename "~/ycmd_global_config.py"))
-                              ;; "/User/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd"))
+  ;(setq ycmd-global-config (file-truename "~/ycmd_global_config.py"))
+  ;;                             ;; "/User/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd"))
   ;; (setq ycmd-force-semantic-completion t)
-  ;; (add-hook 'rust-mode-hook 'ycmd-mode)
+  ;(add-hook 'rust-mode-hook 'ycmd-mode)
+
+  ;;; 设置等待server的时间，默认是3s
+  ;(setq ycmd-startup-timeout 45)
+  ;;; show debug info to *Messages* buffer
+  (setq url-show-status t)
 
   ;; (set-variable 'ycmd-global-config "")
   ;; (set-variable
@@ -445,6 +512,17 @@ you should place your code here."
   ;; (set-variable 'ycmd-parse-conditions
   ;;               '(save new-line mode-enabled idle-change buffer-focus))
   ;; (set-variable 'ycmd-rust-src-path "/User/fred/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+  (spacemacs/helm-gtags-define-keys-for-mode 'php-mode)
+  ;(set-variable 'ycmd-global-config "")
+  ;(set-variable 'ycmd-server-command '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
+  
+  ;(setq ycmd-server-command '())
+  ;(push (file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/") ycmd-server-command)
+  ;(push "python" ycmd-server-command)
+  ;; (set-variable 'ycmd-extra-conf-whitelist '("~/repos/*"))
+  ;; (set-variable 'ycmd-global-modes 'all)
+  ;; (set-variable 'ycmd-parse-conditions '(save new-line mode-enabled idle-change buffer-focus))
+  ;; (setq ycmd-rust-src-path (file-truename "~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"))
 
   (setq gnus-secondary-select-methods
         '(
@@ -495,10 +573,11 @@ you should place your code here."
    (quote
     ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-column 100)
  '(org-agenda-files (quote ("~/my/org/TODO.org")))
  '(package-selected-packages
    (quote
-    (powerline spinner org-category-capture alert log4e gntp org-plus-contrib markdown-mode skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode hydra parent-mode projectile haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter pos-tip flycheck flx magit magit-popup git-commit ghub with-editor smartparens iedit anzu evil goto-chg undo-tree highlight pkg-info let-alist request epl web-completion-data dash-functional tern ac-php-core xcscope php-mode company bind-map bind-key yasnippet packed anaconda-mode pythonic f dash s helm avy helm-core async auto-complete popup rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby company-dict flycheck-ycmd company-ycmd ycmd request-deferred deferred toml-mode racer flycheck-rust cargo rust-mode sunrise-x-buttons sunrise-x-tree sunrise-x-tabs sunrise-commander zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme ample-zen-theme ample-theme alect-themes afternoon-theme helm-w3m w3m xpm org-mime youdao-dictionary names chinese-word-at-point pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib hc-zenburn-theme anti-zenburn-theme evil-multiedit ncl-mode molokai-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc info+ indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump dracula-theme diminish diff-hl dash-at-point dactyl-mode cython-mode company-web company-tern company-statistics company-php company-emoji company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (tiny symbol-overlay company-ycmd ycmd projectile-rails inflections feature-mode enh-ruby-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby company-dict flycheck-ycmd request-deferred deferred toml-mode racer flycheck-rust cargo rust-mode sunrise-x-buttons sunrise-x-tree sunrise-x-tabs sunrise-commander zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme ample-zen-theme ample-theme alect-themes afternoon-theme helm-w3m w3m xpm org-mime youdao-dictionary names chinese-word-at-point pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib hc-zenburn-theme anti-zenburn-theme evil-multiedit ncl-mode molokai-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc info+ indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump dracula-theme diminish diff-hl dash-at-point dactyl-mode cython-mode company-web company-tern company-statistics company-php company-emoji company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

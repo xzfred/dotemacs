@@ -64,12 +64,13 @@ values."
                           ("#突破" . ?a)
                           ("#挖掘" . ?b)
                           ("#接触" . ?c)
+                          ("#测试" . ?t)
                           ("@work" . ?w)
                           ("@home" . ?h)
                           ("laptop" . ?l)
                           ("kindle" . ?k)
                           ("book" . ?z)
-                          ("phone" . ?t)
+                          ("phone" . ?P)
                           ("read" . ?r)
                           ("study" . ?s)
                           ("plan" . ?p)
@@ -82,7 +83,7 @@ values."
                               ;; (type "进程(p)" "线程(t)" "纤程(q)" "协程(x)" "|")
                               )
           ;; org-bbdb org-bibtex org-gnus org-habit org-info org-irc org-mu4e org-mhe org-rmail org-w3m org-mac-link org-protocol
-          org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
+          org-modules '(org-habit org-float org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-mac-link org-protocol)
           org-directory "~/my/org"
           org-refile-targets (quote (("~/my/org/trash.org" :maxlevel . 1)
                                      ("~/my/org/future.org" :level . 1)))
@@ -518,25 +519,32 @@ you should place your code here."
 
 
   ;; (setq ycmd-server-command '("python" '(file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/")))
-  ;; (setq ycmd-global-config (file-truename "~/ycmd_global_config.py"))
+  ;(setq ycmd-global-config (file-truename "~/ycmd_global_config.py"))
   ;;                             ;; "/User/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd"))
   ;; (setq ycmd-force-semantic-completion t)
-  ;; (add-hook 'rust-mode-hook 'ycmd-mode)
+  ;(add-hook 'rust-mode-hook 'ycmd-mode)
 
   ;;; 设置等待server的时间，默认是3s
-  ;; (setq ycmd-startup-timeout 45)
+  ;(setq ycmd-startup-timeout 45)
   ;;; show debug info to *Messages* buffer
   (setq url-show-status t)
-
   (setq exec-path-from-shell-check-startup-files nil)
 
-  (spacemacs/helm-gtags-define-keys-for-mode 'php-mode)
   ;; (set-variable 'ycmd-global-config "")
+  ;; (set-variable
+  ;;  'ycmd-server-command
+  ;;  '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
+  ;; (set-variable 'ycmd-global-modes 'all)
+  ;; (set-variable 'ycmd-parse-conditions
+  ;;               '(save new-line mode-enabled idle-change buffer-focus))
+  ;; (set-variable 'ycmd-rust-src-path "/User/fred/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+  (spacemacs/helm-gtags-define-keys-for-mode 'php-mode)
+  ;(set-variable 'ycmd-global-config "")
   ;(set-variable 'ycmd-server-command '("python" "/Users/fred/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/"))
   
-  ;; (setq ycmd-server-command '())
-  ;; (push (file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/") ycmd-server-command)
-  ;; (push "python" ycmd-server-command)
+  ;(setq ycmd-server-command '())
+  ;(push (file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/") ycmd-server-command)
+  ;(push "python" ycmd-server-command)
   ;; (set-variable 'ycmd-extra-conf-whitelist '("~/repos/*"))
   ;; (set-variable 'ycmd-global-modes 'all)
   ;; (set-variable 'ycmd-parse-conditions '(save new-line mode-enabled idle-change buffer-focus))

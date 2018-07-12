@@ -172,15 +172,25 @@ values."
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
-                      ;; auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-complete-with-key-sequence nil
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-idle-delay 0.2
+                      company-show-numbers t
+
+                      auto-completion-complete-with-key-sequence "jk"
                       ;; 
-                      spacemacs-default-company-backends '((
-                                                            company-dabbrev-code
+                      spacemacs-default-company-backends '(company-files
+                                                           (company-dabbrev-code
                                                             company-gtags
-                                                            company-keywords
-                                                            company-files company-capf) company-dabbrev)
+                                                            company-etags
+                                                            company-keywords)
+                                                            company-capf
+                                                            company-dabbrev)
                       )
                       ;; :disabled-for "org"
+
      ;; 版本控制
      (version-control :variables
                       version-control-diff-tool 'diff-hl
@@ -507,15 +517,10 @@ you should place your code here."
   (add-hook 'rust-mode-hook #'lsp-rust-enable)
   (add-hook 'rust-mode-hook #'flycheck-mode)
 
-  (require 'lsp-php)
-  (add-hook 'php-mode-hook #'lsp-php-enable)
-  (add-hook 'php-mode-hook #'flycheck-mode)
-  ;; (custom-set-variables
-  ;;  '(lsp-php-language-server-command
-  ;;   (quote ("/usr/local/bin/php" '(file-truename "~/php/vendor/bin/php-language-server.php"))))
-  ;; )
-  (setq lsp-php-language-server-command
-          '("/usr/local/bin/php" "/Users/xuzhi/php/vendor/bin/php-language-server.php"))
+  ;; (require 'lsp-php)
+  ;; (add-hook 'php-mode-hook #'lsp-php-enable)
+  ;; (add-hook 'php-mode-hook #'flycheck-mode)
+  ;; (setq lsp-php-language-server-command '("/usr/local/bin/php" "/Users/xuzhi/php/vendor/bin/php-language-server.php"))
 
 
   ;; (setq ycmd-server-command '("python" '(file-truename "~/my/vim/plugged/YouCompleteMe/third_party/ycmd/ycmd/")))

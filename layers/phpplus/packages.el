@@ -13,8 +13,8 @@
      (spacemacs|add-company-backends
        :modes php-mode
        :variables
-       company-minimum-prefix-length 1000
-       :backends  company-ac-php-backend
+       company-minimum-prefix-length 2
+       ;; :backends  company-ac-php-backend
        )
      )))
 
@@ -55,11 +55,21 @@
                (set (make-local-variable 'company-backends)
                     ;; '((php-extras-company company-dabbrev) company-capf company-files))
                     ;;  php-extras-company
-                    '(company-robe
+                    '(
+                      ;;company-robe
                                    (company-capf :with company-yasnippet)
                                    (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
                                    (company-files :with company-yasnippet) 
                                    (company-dabbrev :with company-yasnippet)))
+
+               ;; Value: ((company-ac-php-backend :with company-yasnippet)
+               ;;         (company-dabbrev-code company-gtags company-keywords company-files company-capf :with company-yasnippet)
+               ;;         (company-dabbrev :with company-yasnippet))
+
+               ;; value is ((company-ac-php-backend :with company-yasnippet)
+               ;;      (company-dabbrev-code company-gtags company-keywords company-files company-capf :with company-yasnippet)
+               ;;               (company-dabbrev :with company-yasnippet))
+
                ))
       )
     )

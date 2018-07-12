@@ -1,9 +1,17 @@
 (setq phpplus-packages
       '(
-        company
+        drupal-mode
+        eldoc
         flycheck
-        company-php
+        ggtags
+        counsel-gtags
+        helm-gtags
+        php-auto-yasnippets
+        (php-extras :location (recipe :fetcher github :repo "arnested/php-extras"))
         php-mode
+        phpcbf
+        phpunit
+        (company-php :requires company)
         ))
 (defun phpplus/post-init-company ()
   (condition-case nil

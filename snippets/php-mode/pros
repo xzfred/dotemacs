@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: protected static function
+# key: pros
+# --
+protected static function ${name}($${param})
+{
+    $0
+}

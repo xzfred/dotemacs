@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : Log::info
+#key : info
+#contributor : 徐智
+# --
+\Log::info(${__FUNCTION__}, [$${data}]);
+$0
+

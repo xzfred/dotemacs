@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
-#name : dd
+#name : Kint::dump
 #key : dd
 #contributor : 徐智
 # --
-\Kint::dump($data);die;
+\Kint::dump(${data});die;
+$0

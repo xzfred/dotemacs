@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : public static $var
+#key : pubsv
+#contributor : 徐智
+# --
+public static $${name};
+$0

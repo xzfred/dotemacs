@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: row dict function
+# key: formatRow
+# --
+protected function ${formatRow}(&$row, $f, $v)
+{
+$0
+}

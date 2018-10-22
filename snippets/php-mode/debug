@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : Log::debug
+#key : debug
+#contributor : 徐智
+# --
+\Log::debug(${__FUNCTION__}, [$${data}]);
+$0
+

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: protected $var
+# key: prov
+# --
+protected $${var};

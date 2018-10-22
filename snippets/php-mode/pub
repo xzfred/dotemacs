@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: public function
+# key: pub
+# group: class
+# --
+public function ${1:name}($${2:param})
+{
+    $0
+}

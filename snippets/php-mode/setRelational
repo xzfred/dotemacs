@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#name : setRelational
+#key : setRelational
+#contributor : 徐智
+# --
+
+protected function setRelational($id, $src, $data, $isNew)
+{
+    $0
+}

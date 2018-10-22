@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#name : setData
+#key : setData
+#contributor : 徐智
+# --
+protected function setData($src, &$data, $isNew)
+{
+    $0
+    parent::setData($src, $data, $isNew);
+}

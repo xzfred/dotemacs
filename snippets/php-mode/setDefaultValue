@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+#name : setDefaultValue
+#key : setDefaultValue
+#contributor : 徐智
+# --
+protected function setDefaultValue(&$data, $isNew)
+{
+    parent::setDefaultValue($data, $isNew);
+    $0
+}
+

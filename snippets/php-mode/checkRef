@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+#name : checkRef
+#key : checkRef
+#contributor : 徐智
+# --
+protected function checkRef($src, &$data, $isNew)
+{
+    $0
+    return parent::checkRef($src, $data, $isNew);
+}
+
